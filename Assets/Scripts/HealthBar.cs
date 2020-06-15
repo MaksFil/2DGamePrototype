@@ -5,19 +5,23 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour {
 
-	[SerializeField] private Slider slider;
+	[SerializeField] private Slider _slider;
+	[SerializeField] private Character _character;
 
 	private static float health;
-	public static void AdjustHealthValue(float adjust)
-	{
-		health += adjust;
-	}
 	void Start()
 	{
-		health = slider.maxValue;
+		health = _slider.maxValue;
+		_slider.maxValue = _character.maxHealth;
+		_slider.value = _slider.maxValue;
 	}
 	void Update()
 	{
-		slider.value = health;
+		_slider.value = health;
+
+		if (health > _character.maxHealth)
+		{
+			health = _character.maxHealth;
+		}
 	}
 }

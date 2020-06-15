@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AttackPoint : MonoBehaviour
 {
+    private Character _character;
     private void OnTriggerStay2D(Collider2D other)
     {
         if (PlayerController.isAttacking)
