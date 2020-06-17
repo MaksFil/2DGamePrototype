@@ -15,11 +15,9 @@ public class HealthBar : MonoBehaviour {
 	}
 	void Update()
 	{
-		_slider.value = _character._health;
+	    _slider.value = _character._health;
 
-		if (_character._health > _character.maxHealth)
-		{
-			_character._health = _character.maxHealth;
-		}
+	    if(_character._health > _character.maxHealth) _character._health = _character.maxHealth;
+            if(_character._health <= 0) Death();
 	}
 }
