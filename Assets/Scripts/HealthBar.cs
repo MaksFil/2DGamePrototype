@@ -7,21 +7,19 @@ public class HealthBar : MonoBehaviour {
 
 	[SerializeField] private Slider _slider;
 	[SerializeField] private Character _character;
-
-	private static float health;
 	void Start()
 	{
-		health = _slider.maxValue;
+		_character._health = _slider.maxValue;
 		_slider.maxValue = _character.maxHealth;
 		_slider.value = _slider.maxValue;
 	}
 	void Update()
 	{
-		_slider.value = health;
+		_slider.value = _character._health;
 
-		if (health > _character.maxHealth)
+		if (_character._health > _character.maxHealth)
 		{
-			health = _character.maxHealth;
+			_character._health = _character.maxHealth;
 		}
 	}
 }

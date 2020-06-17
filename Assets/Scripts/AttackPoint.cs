@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class AttackPoint : MonoBehaviour
 {
-    private Character _character;
+    [SerializeField] private Character _character;
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (PlayerController.isAttacking)
+        if (Player.isAttacking)
         {
-            if (other.tag == "Enemy" && PlayerController._damage == false)
+            Debug.Log("+++");
+            if (other.tag == "Enemy" && Player.isDamage == false)
             {
                 Debug.Log("Damage was dealt!");
-                PlayerController._damage = true;
+                other.gameObject.GetComponent<Character>().AdjustedHealth(-_character._damage);
+                Player.isDamage = true;
+
             }
         }
     }
