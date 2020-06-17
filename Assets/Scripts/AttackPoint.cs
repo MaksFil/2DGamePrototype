@@ -9,10 +9,8 @@ public class AttackPoint : MonoBehaviour
     {
         if (Player.isAttacking)
         {
-            Debug.Log("+++");
             if (other.tag == "Enemy" && Player.isDamage == false)
             {
-                Debug.Log("Damage was dealt!");
                 other.gameObject.GetComponent<Character>().AdjustedHealth(-_character._damage);
                 Player.isDamage = true;
 
