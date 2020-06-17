@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character {
-    public override void CheckDeath() 
+    public override void Death() 
     {
-        if(_health <= 0) 
-        {
-            Destroy(this.gameObject);
-        }
+        Destroy(this.gameObject);
     }
 }
