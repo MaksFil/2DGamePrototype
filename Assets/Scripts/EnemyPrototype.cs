@@ -6,5 +6,6 @@ public class EnemyPrototype : Enemy {
     private void Update()
     {
         Walking(180);
+        CheckDeath();
     }
 }
