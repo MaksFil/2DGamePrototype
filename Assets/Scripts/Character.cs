@@ -3,24 +3,74 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour {
-    public float _speed, jumpForce, _health, maxHealth, _damage;
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private Transform groundCheck;
 
-    public void Walking(int rotate)
+    public float _speed, jumpForce, _health, maxHealth, _damage, attackTime = 0f, attackReset;
+    public bool isAttacking = false, isDamage = false, withHammer;
+
+    private Animator _animator;
+    private Rigidbody2D _physics;
+
+    private float checkRadius = 0.5f;
+    private bool isGrounded;
+
+    private void Start()
     {
-        transform.rotation = Quaternion.Euler(0, rotate, 0);
-        if(rotate == 0) transform.Translate(_speed, 0, 0, Space.World);
-        if(rotate == 180) transform.Translate(-_speed, 0, 0, Space.World);
+        _animator = GetComponent<Animator>();
+        _physics = GetComponent<Rigidbody2D>();
+    }
+    public void Idle() 
+    {
+        _animator.SetFloat("walking", 0);
+    }
+
+    public void Walking(int direction)
+    {
+        _animator.SetFloat("walking", direction);
+        if(direction > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (direction < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
+        transform.Translate(_speed, 0, 0);
+
+    }
+    public virtual void Attack()
+    {
+        _animator.SetBool("AttackWithHammer", true);
+        isAttacking = true;
+        isDamage = false;
+    }
+
+    public void Jump() 
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        if (isGrounded)
+        {
+            _physics.velocity = Vector2.up * jumpForce;
+        }
     }
     public void AdjustedHealth(float adjust) 
     {
         _health += adjust;
     }
 
-    public virtual void CheckDeath() 
+   public virtual void Death() 
     {
-        if(_health <= 0) 
+        Destroy(this.gameObject);
+    }
+    public void AttackTimer()
+    {
+        if (isAttacking)
         {
-        
+            if (attackTime > 0)
+            {
+                attackTime -= Time.deltaTime;
+            }
+            else
+            {
+                isAttacking = false;
+                _animator.SetBool("AttackWithHammer", false);
+                isDamage = false;
+            }
         }
     }
 }

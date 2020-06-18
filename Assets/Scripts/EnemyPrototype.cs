@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyPrototype : Enemy {
     private void Update()
     {
-        Walking(180);
-        CheckDeath();
+        WalkTheLine(-110, -85);
+        AttackTimer();
     }
 }

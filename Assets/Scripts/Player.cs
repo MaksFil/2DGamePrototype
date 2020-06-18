@@ -4,69 +4,44 @@ using UnityEngine;
 
 public class Player : Character {
 
-    [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private Character _player;
-
-    private Animator _animator;
-    private Rigidbody2D _physics;
-
-    static public bool isAttacking = false, isDamage = false;
-
-    private float checkRadius = 0.5f, attackTimer = 0f, attackReset = 0.2f;
     private int _direction;
-    private bool isGrounded;
-    private bool withHammer = true;
+
+    public override void Attack()
+    {
+        if (withHammer)
+        {
+            base.Attack();
+            attackTime = attackReset;
+        }
+
+        }
     public void OnClickMoveButton(int direction)
     {
-        _animator.SetFloat("walking", direction);
         _direction = direction;
     }
 
     public void OnClickJumpButton()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        if (isGrounded)
-        {
-            _physics.velocity = Vector2.up * _player.jumpForce;
-        }
+        Jump();
     }
     public void OnClickHammerAttackButton()
     {
-        if (withHammer)
-        {
-            isAttacking = true;
-            attackTimer = attackReset;
-            _animator.SetBool("AttackWithHammer", true);
-            isDamage = false;
-        }
+        Attack();
     }
 
-    private void Start()
+    public override void Death()
     {
-        _animator = GetComponent<Animator>();
-        _physics = GetComponent<Rigidbody2D>();
+        Debug.Log("You death");
+        _health = 100;
     }
-    private void Update()
+    private void Update() 
     {
-        if (isAttacking)
-        {
-            if (attackTimer > 0)
-            {
-                attackTimer -= Time.deltaTime;
-            }
-            else
-            {
-                isAttacking = false;
-                _animator.SetBool("AttackWithHammer", false);
-                isDamage = false;
-            }
-        }
+        AttackTimer();
     }
     private void FixedUpdate()
     {
-        if (_direction > 0) _player.Walking(0);
-        else if (_direction < 0) _player.Walking(180);
-        else _animator.SetFloat("walking", 0);
+        if (_direction > 0) Walking(_direction);
+        else if (_direction < 0) Walking(_direction);
+        else Idle();
     }
 }

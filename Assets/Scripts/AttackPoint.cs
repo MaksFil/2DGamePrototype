@@ -7,15 +7,17 @@ public class AttackPoint : MonoBehaviour
     [SerializeField] private Character _character;
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (Player.isAttacking)
+        if (other.tag == "Player")
         {
-            Debug.Log("+++");
-            if (other.tag == "Enemy" && Player.isDamage == false)
+            _character.Attack();
+        }
+        if (_character.isAttacking)
+        {
+            if (other.tag == "Enemy" && _character.isDamage == false || other.tag == "Player" && _character.isDamage == false)
             {
-                Debug.Log("Damage was dealt!");
                 other.gameObject.GetComponent<Character>().AdjustedHealth(-_character._damage);
-                Player.isDamage = true;
-
+                _character.attackTime = _character.attackReset;
+                _character.isDamage = true;
             }
         }
     }

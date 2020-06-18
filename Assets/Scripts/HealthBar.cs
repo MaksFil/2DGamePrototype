@@ -17,9 +17,7 @@ public class HealthBar : MonoBehaviour {
 	{
 		_slider.value = _character._health;
 
-		if (_character._health > _character.maxHealth)
-		{
-			_character._health = _character.maxHealth;
-		}
+		if (_character._health > _character.maxHealth) _character._health = _character.maxHealth;
+		if (_character._health <= 0) _character.Death();
 	}
 }
