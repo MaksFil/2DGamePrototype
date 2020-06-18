@@ -16,12 +16,9 @@ public class Character : MonoBehaviour {
         _health += adjust;
     }
 
-    public virtual void CheckDeath() 
+    public virtual void Death() 
     {
-        if(_health <= 0) 
-        {
-        
-        }
+        Destroy(this.gameObject);
     }
 }
 
