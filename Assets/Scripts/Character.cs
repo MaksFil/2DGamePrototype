@@ -39,7 +39,7 @@ public class Character : MonoBehaviour {
         isDamage = false;
     }
 
-    public virtual void Jump() 
+    public void Jump() 
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         if (isGrounded)
