@@ -6,6 +6,20 @@ public class Player : Character {
 
     private int _direction;
 
+    public override void Walking(int direction)
+    {
+        base.Walking(direction);
+        if (direction > 0)
+        {
+            Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            Camera.main.transform.localPosition = new Vector3(Camera.main.transform.localPosition.x, Camera.main.transform.localPosition.y, -25);
+        }
+        if (direction < 0)
+        {
+            Camera.main.transform.localRotation = Quaternion.Euler(0, -180, 0);
+            Camera.main.transform.localPosition = new Vector3(Camera.main.transform.localPosition.x, Camera.main.transform.localPosition.y, 25);
+        }
+    }
     public override void Attack()
     {
         if (withHammer)
@@ -34,6 +48,7 @@ public class Player : Character {
         Debug.Log("You death");
         _health = 100;
     }
+
     private void Update() 
     {
         AttackTimer();

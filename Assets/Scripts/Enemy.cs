@@ -10,13 +10,13 @@ public class Enemy : Character
     {
         if (withHammer && attackTime <= 0) base.Attack();
     }
-    public void WalkTheLine(float _start, float _final) // starting position must be less than the final!!!
+    public void WalkTheLine(float start, float final) // starting position must be less than the final!!!
     {
-        if (this.gameObject.transform.position.x <= _start)
+        if (this.gameObject.transform.position.x <= start)
         {
             _direction = 1; 
         }
-        if (this.gameObject.transform.position.x >= _final)
+        if (this.gameObject.transform.position.x >= final)
         {
             _direction = -1;
         }

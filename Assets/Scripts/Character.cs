@@ -25,13 +25,12 @@ public class Character : MonoBehaviour {
         _animator.SetFloat("walking", 0);
     }
 
-    public void Walking(int direction)
+    public virtual void Walking(int direction)
     {
         _animator.SetFloat("walking", direction);
         if(direction > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
         if (direction < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
         transform.Translate(_speed, 0, 0);
-
     }
     public virtual void Attack()
     {
@@ -40,7 +39,7 @@ public class Character : MonoBehaviour {
         isDamage = false;
     }
 
-    public void Jump() 
+    public virtual void Jump() 
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         if (isGrounded)

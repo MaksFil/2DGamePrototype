@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPrototype : Enemy {
+
+    [SerializeField] private float _start, _end;
     private void Update()
     {
-        WalkTheLine(-110, -85);
         AttackTimer();
+    }
+    private void FixedUpdate() 
+    {
+        WalkTheLine(_start, _end);
     }
 }
