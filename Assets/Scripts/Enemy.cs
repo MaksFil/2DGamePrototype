@@ -1,11 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : Character
 {
-    private int _direction;
+    [SerializeField] private Transform _player;
 
+    private NavMeshAgent _agent;
+
+    private int _direction;
+    private float _distance, lockRadius = 25;
+    public bool isChase = false;
+    private void Start()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+    }
     public override void Attack()
     {
         if (withHammer && attackTime <= 0) base.Attack();
@@ -14,7 +24,7 @@ public class Enemy : Character
     {
         if (this.gameObject.transform.position.x <= start)
         {
-            _direction = 1; 
+            _direction = 1;
         }
         if (this.gameObject.transform.position.x >= final)
         {
@@ -22,5 +32,23 @@ public class Enemy : Character
         }
         Walking(_direction);
     }
+    public void Chase() 
+    {
+        _distance = Vector3.Distance(_player.position, transform.position);
 
+        if(_distance <= lockRadius) 
+        {
+            _agent.SetDestination(_player.position);
+            isChase = true;
+        }
+        else 
+        {
+            isChase = false;
+        }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, lockRadius);
+    }
 }

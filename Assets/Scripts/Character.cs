@@ -12,10 +12,10 @@ public class Character : MonoBehaviour {
     private Animator _animator;
     private Rigidbody2D _physics;
 
-    private float checkRadius = 0.5f;
+    private float checkRadius = 0.5f, lockRadius = 25;
     private bool isGrounded;
 
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
         _physics = GetComponent<Rigidbody2D>();
@@ -39,7 +39,7 @@ public class Character : MonoBehaviour {
         isDamage = false;
     }
 
-    public virtual void Jump() 
+    public void Jump() 
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         if (isGrounded)
@@ -72,5 +72,6 @@ public class Character : MonoBehaviour {
             }
         }
     }
+
 }
 
