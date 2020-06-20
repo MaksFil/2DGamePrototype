@@ -11,6 +11,8 @@ public class EnemyPrototype : Enemy {
     }
     private void FixedUpdate() 
     {
-        WalkTheLine(_start, _end);
+        Chase();
+        if(isChase == false) WalkTheLine(_start, _end);
     }
+
 }
