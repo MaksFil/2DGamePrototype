@@ -7,15 +7,12 @@ public class Enemy : Character
 {
     [SerializeField] private Transform _player;
 
-    private NavMeshAgent _agent;
+    [SerializeField] private float maxHightTarget;
 
     private int _direction;
-    private float _distance, lockRadius = 25;
-    public bool isChase = false;
-    private void Start()
-    {
-        _agent = GetComponent<NavMeshAgent>();
-    }
+    private float distanceTarget, hightTarget;
+    public bool isChase;
+
     public override void Attack()
     {
         if (withHammer && attackTime <= 0) base.Attack();
@@ -26,29 +23,39 @@ public class Enemy : Character
         {
             _direction = 1;
         }
-        if (this.gameObject.transform.position.x >= final)
+        else if (this.gameObject.transform.position.x >= final)
         {
             _direction = -1;
         }
         Walking(_direction);
     }
-    public void Chase() 
+    public void Chase(float lockRadius)
     {
-        _distance = Vector3.Distance(_player.position, transform.position);
 
-        if(_distance <= lockRadius) 
+        distanceTarget = _player.position.x - transform.position.x;
+        hightTarget = Mathf.Abs(_player.position.y - transform.position.y);
+
+        if (distanceTarget <= lockRadius && hightTarget <= maxHightTarget)
         {
-            _agent.SetDestination(_player.position);
+            _speed = 0.14f;
             isChase = true;
+
+            if (distanceTarget > 0)
+            {
+                _direction = 1;
+            }
+
+            if(distanceTarget < 0) 
+            {
+                _direction = -1;
+            }
+
+            Walking(_direction);
         }
-        else 
+        else
         {
+            _speed = 0.1f;
             isChase = false;
         }
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lockRadius);
     }
 }
